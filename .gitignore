@@ -14,6 +14,6 @@ tests-examples/
 example.*
 *.log
 tests/test-*.spec.ts
-.env*
 /allure-report/
 /test-data/
+#.env*
