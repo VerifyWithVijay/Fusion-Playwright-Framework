@@ -4,7 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "test": "playwright test",
+  "test:qa": "playwright test -- --env=qa",
+  "test:uat": "playwright test -- --env=uat",
+  "report": "allure serve allure-results"
   },
   "keywords": [],
   "author": "",
