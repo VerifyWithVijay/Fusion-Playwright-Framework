@@ -4,6 +4,7 @@ import { env } from "./src/config/env";
 
 import { getProjects } from "./src/config/browsers";
 
+
 const browser = process.env.BROWSER || "chromium";
 
 const projects = getProjects(browser);
