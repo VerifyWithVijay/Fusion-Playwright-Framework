@@ -1,7 +1,64 @@
-import { defineConfig } from "@playwright/test";
+import { defineConfig, type Project } from "@playwright/test";
 import { env } from "./src/config/env";
-console.log("Playwright Base URL:", env.BASE_URL);
+//console.log("Base URL:", env.BASE_URL);
+const browser = (process.env.BROWSER || "chromium").toLowerCase();
 
+let projects: Project[] = [];
+
+if (browser === "chromium") {
+    projects.push({
+        name: "Chromium",
+        use: {
+            browserName: "chromium",
+        },
+    });
+}
+
+if (browser === "firefox") {
+    projects.push({
+        name: "Firefox",
+        use: {
+            browserName: "firefox",
+        },
+    });
+}
+
+if (browser === "webkit") {
+    projects.push({
+        name: "WebKit",
+        use: {
+            browserName: "webkit",
+        },
+    });
+}
+
+if (browser === "all") {
+
+    projects.push({
+        name: "Chromium",
+        use: {
+            browserName: "chromium",
+        },
+    });
+
+    projects.push({
+        name: "Firefox",
+        use: {
+            browserName: "firefox",
+        },
+    });
+
+    projects.push({
+        name: "WebKit",
+        use: {
+            browserName: "webkit",
+        },
+    });
+
+}
+
+console.log("Browser Parameter :", browser);
+console.log("Projects Created :", projects.map(p => p.name));
 
 export default defineConfig({
   testDir: "./tests",
@@ -40,9 +97,8 @@ export default defineConfig({
     video: "retain-on-failure"
   },
 
-  projects: [
-    { name: 'Chromium' },
-  //  { name: 'Firefox' },
-   // { name: 'WebKit' }
-]
+  projects,
+
+
 });
+
