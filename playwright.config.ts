@@ -1,68 +1,18 @@
 import { defineConfig, type Project } from "@playwright/test";
 import { env } from "./src/config/env";
 //console.log("Base URL:", env.BASE_URL);
-const browser = (process.env.BROWSER || "chromium").toLowerCase();
 
-let projects: Project[] = [];
+import { getProjects } from "./src/config/browsers";
 
-if (browser === "chromium") {
-    projects.push({
-        name: "Chromium",
-        use: {
-            browserName: "chromium",
-        },
-    });
-}
+const browser = process.env.BROWSER || "chromium";
 
-if (browser === "firefox") {
-    projects.push({
-        name: "Firefox",
-        use: {
-            browserName: "firefox",
-            channel: "firefox",
-        },
-    });
-}
-
-if (browser === "webkit") {
-    projects.push({
-        name: "WebKit",
-        use: {
-            browserName: "webkit",
-        },
-    });
-}
-
-if (browser === "all") {
-
-    projects.push({
-        name: "Chromium",
-        use: {
-            browserName: "chromium",
-        },
-    });
-
-    projects.push({
-        name: "Firefox",
-        use: {
-            browserName: "firefox",
-        },
-    });
-
-    projects.push({
-        name: "WebKit",
-        use: {
-            browserName: "webkit",
-        },
-    });
-
-}
+const projects = getProjects(browser);
 
 console.log("--------------------------------");
 console.log("Browser Parameter :", browser);
 console.log(
     "Projects Created :",
-    projects.map(p => p.name)
+    projects.map(project => project.name)
 );
 console.log("--------------------------------");
 
