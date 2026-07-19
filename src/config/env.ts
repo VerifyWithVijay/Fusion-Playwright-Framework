@@ -5,7 +5,9 @@ import path from "path";
 const testEnv = process.env.TEST_ENV || "qa";
 
 // Load .env only if running locally
-if (!process.env.BASE_URL) {
+if (process.env.JENKINS_HOME) {
+    console.log("Running inside Jenkins");
+} else {
     dotenv.config({
         path: path.resolve(process.cwd(), `.env.${testEnv}`),
     });

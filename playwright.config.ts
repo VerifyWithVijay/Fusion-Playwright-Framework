@@ -1,5 +1,7 @@
 import { defineConfig } from "@playwright/test";
 import { env } from "./src/config/env";
+console.log("Playwright Base URL:", env.BASE_URL);
+
 
 export default defineConfig({
   testDir: "./tests",
