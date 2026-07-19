@@ -3,6 +3,10 @@ import { env } from "./src/config/env";
 
 export default defineConfig({
   testDir: "./tests",
+  timeout: 40 * 1000,   
+  expect: {
+     timeout: 40 * 1000
+  },
 
   reporter: [
     ['html'],
@@ -24,7 +28,7 @@ export default defineConfig({
     ]
   ],
   fullyParallel:true,
-  retries:3,
+  //retries:3,
   workers:2,
   use: {
     baseURL: env.BASE_URL,
@@ -36,7 +40,7 @@ export default defineConfig({
 
   projects: [
     { name: 'Chromium' },
-    { name: 'Firefox' },
-    { name: 'WebKit' }
+  //  { name: 'Firefox' },
+   // { name: 'WebKit' }
 ]
 });

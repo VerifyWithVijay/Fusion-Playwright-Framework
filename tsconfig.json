@@ -1,5 +1,9 @@
+
 {
-  "compilerOptions": {
-    "types": ["node"]
-  }
-}
+    "compilerOptions": {
+        "target": "ES2022",
+        "module": "CommonJS",
+        "strict": true,
+        "types": ["node"]
+        }
+    }
