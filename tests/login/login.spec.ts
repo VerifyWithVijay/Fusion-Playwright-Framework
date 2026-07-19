@@ -7,8 +7,17 @@ import { env } from "../../src/config/env";
 import { Logger } from "../../src/utils/Logger";
 
 
-test.beforeEach(async ({ page }) => {
-  await page.goto("/");
+// test.beforeEach(async ({ page }) => {
+//   await page.goto("/");
+// });
+
+test.beforeEach(async ({ page }, testInfo) => {
+    console.log("Project =", testInfo.project.name);
+    console.log("Browser =", testInfo.project.use.browserName);
+
+    await page.goto("/", {
+        waitUntil: "networkidle",
+    });
 });
 
 test.only("Verify user can login successfully", async ({ loginPage, inventoryPage }) => {

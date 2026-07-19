@@ -58,8 +58,13 @@ if (browser === "all") {
 
 }
 
+console.log("--------------------------------");
 console.log("Browser Parameter :", browser);
-console.log("Projects Created :", projects.map(p => p.name));
+console.log(
+    "Projects Created :",
+    projects.map(p => p.name)
+);
+console.log("--------------------------------");
 
 export default defineConfig({
   testDir: "./tests",
