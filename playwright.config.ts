@@ -19,6 +19,7 @@ if (browser === "firefox") {
         name: "Firefox",
         use: {
             browserName: "firefox",
+            channel: "firefox",
         },
     });
 }
