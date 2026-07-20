@@ -40,50 +40,61 @@ pipeline {
             }
         }
 
-        stage('Run Tests') {
-            steps {
+      stage('Run Tests') {
+    steps {
 
-                script {
+        script {
 
-                def baseUrlCredential = "BASE_URL_${params.TEST_ENV.toUpperCase()}"
-                def loginCredential = "SAUCE_${params.TEST_ENV.toUpperCase()}_LOGIN"
+            def baseUrlCredential = "BASE_URL_${params.TEST_ENV.toUpperCase()}"
+            def loginCredential = "SAUCE_${params.TEST_ENV.toUpperCase()}_LOGIN"
 
-                echo "Base URL Credential : ${baseUrlCredential}"
-                echo "Login Credential    : ${loginCredential}"
+            echo "===================================="
+            echo "Base URL Credential : ${baseUrlCredential}"
+            echo "Login Credential    : ${loginCredential}"
+            echo "===================================="
 
-                withCredentials([
+            withCredentials([
 
                 string(
-                credentialsId: baseUrlCredential,
-                variable: 'BASE_URL'
-            ),
+                    credentialsId: baseUrlCredential,
+                    variable: 'BASE_URL'
+                ),
 
                 usernamePassword(
-                credentialsId: loginCredential,
-                usernameVariable: 'SAUCE_USERNAME',
-                passwordVariable: 'SAUCE_PASSWORD'
-            )
+                    credentialsId: loginCredential,
+                    usernameVariable: 'SAUCE_USERNAME',
+                    passwordVariable: 'SAUCE_PASSWORD'
+                )
 
-        ])
+            ]) {
 
-            }
-                 {
-            
                 bat """
+                set TEST_ENV=${params.TEST_ENV}
+                set BROWSER=${params.BROWSER}
+
                 if exist allure-results rmdir /s /q allure-results
                 if exist allure-report rmdir /s /q allure-report
                 if exist test-results rmdir /s /q test-results
 
+                echo.
+                echo ============================================
                 echo Running Playwright Tests...
+                echo ============================================
                 echo Environment = %TEST_ENV%
                 echo Browser = %BROWSER%
                 echo Credentials loaded successfully.
+                echo ============================================
 
                 npx playwright test
                 """
 
-        }
-            }
+                }
+
+             }
+
         }
     }
+
+}
+
 }
