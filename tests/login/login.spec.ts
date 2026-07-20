@@ -17,7 +17,7 @@ test.beforeEach(async ({ page }) => {
     });
 });
 
-test.only("Verify user can login successfully", async ({ loginPage, inventoryPage }) => {
+test("Verify user can login successfully", async ({ loginPage, inventoryPage }) => {
   await allure.parentSuite("Authentication");
   await allure.suite("Login");
   await allure.severity("critical");
