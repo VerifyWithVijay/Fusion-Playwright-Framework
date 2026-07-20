@@ -11,10 +11,7 @@ import { Logger } from "../../src/utils/Logger";
 //   await page.goto("/");
 // });
 
-test.beforeEach(async ({ page }, testInfo) => {
-    console.log("Project =", testInfo.project.name);
-    console.log("Browser =", testInfo.project.use.browserName);
-
+test.beforeEach(async ({ page }) => {
     await page.goto("/", {
         waitUntil: "networkidle",
     });
@@ -30,8 +27,6 @@ test.only("Verify user can login successfully", async ({ loginPage, inventoryPag
 
 
 
-  Logger.info("Starting successful login test");
-
   //const loginPage = new LoginPage(page);
 
   await allure.step("Login with valid credentials", async () => {
@@ -44,7 +39,12 @@ test.only("Verify user can login successfully", async ({ loginPage, inventoryPag
 
   await allure.step("Verify Inventory page is displayed", async () => {
   Logger.info("Verifying Inventory page is displayed");
-  await expect(await inventoryPage.isInventoryPageDisplayed()).toBeTruthy();
+
+  //await expect(await inventoryPage.isInventoryPageDisplayed()).toBeTruthy();
+  const isDisplayed =
+    await inventoryPage.isInventoryPageDisplayed();
+
+  expect(isDisplayed).toBeTruthy();
  // Logger.info("Successful login test completed");
   });
 });
