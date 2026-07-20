@@ -7,19 +7,25 @@ pipeline {
 
     parameters {
 
-    choice(
+        choice(
         name: 'TEST_ENV',
         choices: ['qa', 'stage', 'uat', 'prod'],
         description: 'Select Environment'
-    )
+        )   
 
-    choice(
+        choice(
         name: 'BROWSER',
         choices: ['chromium', 'firefox', 'webkit', 'all'],
         description: 'Select Browser'
-    )
+        )
 
-}
+        choice(
+        name: 'TEST_SUITE',
+        choices: ['all', 'smoke', 'regression'],
+        description: 'Select Test Suite'
+        )
+
+    }
 
     stages {
         stage('Checkout') {
@@ -48,10 +54,11 @@ pipeline {
             def baseUrlCredential = "BASE_URL_${params.TEST_ENV.toUpperCase()}"
             def loginCredential = "SAUCE_${params.TEST_ENV.toUpperCase()}_LOGIN"
 
-            echo "===================================="
-            echo "Base URL Credential : ${baseUrlCredential}"
-            echo "Login Credential    : ${loginCredential}"
-            echo "===================================="
+            def testCommand = "npx playwright test"
+
+            if (params.TEST_SUITE != "all") {
+            testCommand += " --grep \"@${params.TEST_SUITE}\""
+            }
 
             withCredentials([
 
@@ -66,17 +73,29 @@ pipeline {
                     passwordVariable: 'SAUCE_PASSWORD'
                 )
 
+                
+
             ]) {
+
+                echo "===================================="
+                echo "Environment        : ${params.TEST_ENV}"
+                echo "Browser            : ${params.BROWSER}"
+                echo "Suite              : ${params.TEST_SUITE}"
+                echo "Base URL Cred      : ${baseUrlCredential}"
+                echo "Login Cred         : ${loginCredential}"
+                echo "Playwright Command : ${testCommand}"
+                echo "===================================="
 
                 bat """
                 set TEST_ENV=${params.TEST_ENV}
                 set BROWSER=${params.BROWSER}
+                set TEST_SUITE=${params.TEST_SUITE}
 
                 if exist allure-results rmdir /s /q allure-results
                 if exist allure-report rmdir /s /q allure-report
                 if exist test-results rmdir /s /q test-results
 
-                echo.
+                
                 echo ============================================
                 echo Running Playwright Tests...
                 echo ============================================
@@ -85,7 +104,7 @@ pipeline {
                 echo Credentials loaded successfully.
                 echo ============================================
 
-                npx playwright test
+                ${testCommand}
                 """
 
                 }

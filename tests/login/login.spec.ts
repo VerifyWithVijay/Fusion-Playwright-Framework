@@ -17,30 +17,22 @@ test.beforeEach(async ({ page }) => {
     });
 });
 
-test("Verify user can login successfully", async ({ loginPage, inventoryPage }) => {
+test("@smoke @regression Verify user can login successfully", async ({ loginPage, inventoryPage }) => {
   await allure.parentSuite("Authentication");
   await allure.suite("Login");
   await allure.severity("critical");
   await allure.owner("Vijay");
   Logger.info("Starting successful login test");
-  // await page.goto('/');
-
-
 
   //const loginPage = new LoginPage(page);
 
   await allure.step("Login with valid credentials", async () => {
   await loginPage.login(env.USERNAME, env.PASSWORD);
 });
-  //const inventoryPage = new InventoryPage(page);
-
-  //Logger.info(`Logging in with user: ${env.USERNAME}`);
-  //Logger.info(`Logging in with user: ${env.PASSWORD}`);
 
   await allure.step("Verify Inventory page is displayed", async () => {
   Logger.info("Verifying Inventory page is displayed");
 
-  //await expect(await inventoryPage.isInventoryPageDisplayed()).toBeTruthy();
   const isDisplayed =
     await inventoryPage.isInventoryPageDisplayed();
 
@@ -50,7 +42,7 @@ test("Verify user can login successfully", async ({ loginPage, inventoryPage }) 
 });
 
 for (const data of loginTestData) {
-  test(data.testName, async ({ loginPage }) => {
+  test( `@regression ${data.testName}`, async ({ loginPage }) => {
    // Logger.info("Starting Negative login test");
     // Arrange
     //   await page.goto('/');
