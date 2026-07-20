@@ -5,10 +5,21 @@ pipeline {
         skipDefaultCheckout()
     }
 
-    environment {
-        TEST_ENV = 'qa'
-        BROWSER = 'chromium'
-    }
+    parameters {
+
+    choice(
+        name: 'TEST_ENV',
+        choices: ['qa', 'stage', 'uat', 'prod'],
+        description: 'Select Environment'
+    )
+
+    choice(
+        name: 'BROWSER',
+        choices: ['chromium', 'firefox', 'webkit', 'all'],
+        description: 'Select Browser'
+    )
+
+}
 
     stages {
         stage('Checkout') {
@@ -45,17 +56,20 @@ pipeline {
             )
 
         ]) {
-                    bat '''
-            echo BASE_URL=%BASE_URL%
-            echo USERNAME=%SAUCE_USERNAME%
-            echo PASSWORD=%SAUCE_PASSWORD%
+            
+                bat """
+                if exist allure-results rmdir /s /q allure-results
+                if exist allure-report rmdir /s /q allure-report
+                if exist test-results rmdir /s /q test-results
 
-            echo Running Tests...
-            echo Environment = %TEST_ENV%
-            echo Browser = %BROWSER%
+                echo Running Playwright Tests...
+                echo Environment = %TEST_ENV%
+                echo Browser = %BROWSER%
+                echo Credentials loaded successfully.
 
-            npx playwright test
-            '''
+                npx playwright test
+                """
+
         }
             }
         }
