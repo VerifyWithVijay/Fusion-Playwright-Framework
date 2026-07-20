@@ -130,6 +130,16 @@ post {
 
     always {
 
+          archiveArtifacts(
+            artifacts: '''
+                playwright-report/**,
+                allure-results/**,
+                test-results/**
+            ''',
+            fingerprint: true,
+            allowEmptyArchive: true
+        )
+
         allure(
             includeProperties: false,
             jdk: '',
