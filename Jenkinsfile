@@ -42,15 +42,22 @@ pipeline {
 
         stage('Run Tests') {
             steps {
+
+                script {
+
+                def baseUrlCredential = "BASE_URL_${params.TEST_ENV.toUpperCase()}"
+                def loginCredential = "SAUCE_${params.TEST_ENV.toUpperCase()}_LOGIN"
+
+            }
                 withCredentials([
 
             string(
-                credentialsId: 'BASE_URL_QA',
+                credentialsId: baseUrlCredential,
                 variable: 'BASE_URL'
             ),
 
             usernamePassword(
-                credentialsId: 'SAUCE_QA_LOGIN',
+                credentialsId: loginCredential,
                 usernameVariable: 'SAUCE_USERNAME',
                 passwordVariable: 'SAUCE_PASSWORD'
             )
