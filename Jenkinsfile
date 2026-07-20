@@ -60,6 +60,16 @@ pipeline {
             testCommand += " --grep \"@${params.TEST_SUITE}\""
             }
 
+            currentBuild.displayName =
+            "#${env.BUILD_NUMBER} | ${params.TEST_ENV.toUpperCase()} | ${params.BROWSER.capitalize()} | ${params.TEST_SUITE.capitalize()}"
+
+            currentBuild.description = """
+            Environment : ${params.TEST_ENV}
+            Browser     : ${params.BROWSER}
+            Suite        : ${params.TEST_SUITE}
+            Branch       : ${env.BRANCH_NAME ?: "main"}
+            """
+
             withCredentials([
 
                 string(
