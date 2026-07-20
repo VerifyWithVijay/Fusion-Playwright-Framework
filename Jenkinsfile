@@ -48,21 +48,23 @@ pipeline {
                 def baseUrlCredential = "BASE_URL_${params.TEST_ENV.toUpperCase()}"
                 def loginCredential = "SAUCE_${params.TEST_ENV.toUpperCase()}_LOGIN"
 
-            }
                 withCredentials([
 
-            string(
+                string(
                 credentialsId: baseUrlCredential,
                 variable: 'BASE_URL'
             ),
 
-            usernamePassword(
+                usernamePassword(
                 credentialsId: loginCredential,
                 usernameVariable: 'SAUCE_USERNAME',
                 passwordVariable: 'SAUCE_PASSWORD'
             )
 
-        ]) {
+        ])
+
+            }
+                 {
             
                 bat """
                 if exist allure-results rmdir /s /q allure-results
