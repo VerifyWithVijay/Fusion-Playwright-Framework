@@ -48,6 +48,9 @@ pipeline {
                 def baseUrlCredential = "BASE_URL_${params.TEST_ENV.toUpperCase()}"
                 def loginCredential = "SAUCE_${params.TEST_ENV.toUpperCase()}_LOGIN"
 
+                echo "Base URL Credential : ${baseUrlCredential}"
+                echo "Login Credential    : ${loginCredential}"
+
                 withCredentials([
 
                 string(
