@@ -1,18 +1,16 @@
 pipeline {
-
     agent any
 
-options {
-    skipDefaultCheckout()
-}
+    options {
+        skipDefaultCheckout()
+    }
 
-environment {
-    TEST_ENV = "qa"
-    BROWSER = "chromium"
-}
+    environment {
+        TEST_ENV = 'qa'
+        BROWSER = 'chromium'
+    }
 
     stages {
-
         stage('Checkout') {
             steps {
                 checkout scm
@@ -33,8 +31,7 @@ environment {
 
         stage('Run Tests') {
             steps {
-               
-                 withCredentials([
+                withCredentials([
 
             string(
                 credentialsId: 'BASE_URL_QA',
@@ -48,21 +45,19 @@ environment {
             )
 
         ]) {
-
-            bat '''
+                    bat '''
             echo BASE_URL=%BASE_URL%
             echo USERNAME=%SAUCE_USERNAME%
             echo PASSWORD=%SAUCE_PASSWORD%
-            
+
             echo Running Tests...
             echo Environment = %TEST_ENV%
             echo Browser = %BROWSER%
 
             npx playwright test
             '''
-
+        }
             }
         }
-
     }
 }
