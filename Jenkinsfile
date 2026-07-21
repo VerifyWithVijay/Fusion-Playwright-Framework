@@ -130,13 +130,7 @@ post {
 
     always {
 
-        mailext(
-            subject: "Build ${env.BUILD_NUMBER}",
-            body: "Pipeline completed.",
-            to: "vijayaravindra.kamisetty@gmail.com"
-        )
-
-          archiveArtifacts(
+        archiveArtifacts(
             artifacts: '''
                 playwright-report/**,
                 allure-results/**,
@@ -151,6 +145,12 @@ post {
             jdk: '',
             reportBuildPolicy: 'ALWAYS',
             results: [[path: 'allure-results']]
+        )
+
+        emailext(
+            subject: "Build ${env.BUILD_NUMBER}",
+            body: "Pipeline completed.",
+            to: "vijayaravindra.kamisetty@gmail.com"
         )
 
     }
