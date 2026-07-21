@@ -130,6 +130,12 @@ post {
 
     always {
 
+        mailext(
+            subject: "Build ${env.BUILD_NUMBER}",
+            body: "Pipeline completed.",
+            to: "vijayaravindra.kamisetty@gmail.com"
+        )
+
           archiveArtifacts(
             artifacts: '''
                 playwright-report/**,

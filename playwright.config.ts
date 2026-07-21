@@ -45,7 +45,7 @@ export default defineConfig({
   ],
   fullyParallel:true,
   //retries:3,
-  workers:2,
+ workers: process.env.CI ? 4 : 2,
   use: {
     baseURL: env.BASE_URL,
     headless: false,
