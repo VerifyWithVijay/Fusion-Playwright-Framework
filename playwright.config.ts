@@ -48,10 +48,10 @@ export default defineConfig({
  workers: process.env.CI ? 4 : 2,
   use: {
     baseURL: env.BASE_URL,
-    headless: false,
     screenshot: "only-on-failure",
     trace: "retain-on-failure",
-    video: "retain-on-failure"
+    video: "retain-on-failure",
+    headless: env.HEADLESS,
   },
 
   projects,

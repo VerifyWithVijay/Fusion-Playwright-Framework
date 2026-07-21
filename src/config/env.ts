@@ -30,4 +30,5 @@ export const env = {
     BASE_URL: process.env.BASE_URL!,
     USERNAME: process.env.SAUCE_USERNAME!,
     PASSWORD: process.env.SAUCE_PASSWORD!,
+    HEADLESS: process.env.HEADLESS === "true"
 };
